@@ -2,10 +2,9 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>用户注册</title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link rel="stylesheet" type="text/css" href="/css/mui.min.css"/>
-		<!-- <script src="/js/mui.min.js" type="text/javascript" charset="utf-8"></script>	 -->
 		<link rel="stylesheet" type="text/css" href="/css/login.css"/>
 		<link rel="stylesheet" type="text/css" href="/css/index.css"/>
 		<style type="text/css">
@@ -16,35 +15,34 @@
 	</head>
 	<body>
 
-		
-			<div class="canvas-wrap">
-			<div id="canvas" class="gradient"></div>
-			</div>
-			
-			<form class="mui-input-group" action="/register" method="post">
-				<div class="mui-text-center">
-				欢迎来到新兴贸易
-				</div>
-				<div class="mui-text-center">
-				使用账号和密码
-				</div>
-				<div class="mui-input-row">
-					<label>注册凭证</label>
-					<input type="text" hidden="true" name="web3" id="address" autocomplete="off" class="mui-input-clear" placeholder="地址" required>
-					<input type="text" name="address" id="iden"  autocomplete="off" class="mui-input-clear" placeholder="地址" required>
-				</div>
-		        <div class="mui-input-row">
-		            <label>用户名：</label>
-		            <input type="text" name="username" id="username"  autocomplete="off" class="mui-input-clear" pattern="[\u4e00-\u9fa5]{1,}" placeholder="请输入中文用户名" required>
-		        </div>
-		        <div class="mui-input-row">
-		            <label>密码：</label>
-		            <input type="password" name="password" id="password"  autocomplete="off"  pattern="\w{6,18}" class="mui-input-clear" placeholder="请输入密码6~18" required>
-		        </div>
-		        <button type="submit" class="mui-btn-block" id="loginBtn">注册</button>
-		        <div class="myfooter"><p><a style="color: white;" href="login">登录</a></p><p><a style="color: white;" href="AlterUser">忘记密码?</a></p></div>
-		    </form>
-	<!-- <script type="text/javascript" src="/js/login.js" ></script> -->
+
+		    <div class="canvas-wrap">
+			    <div id="canvas" class="gradient">
+					<form class="mui-input-group" action="/register" method="post">
+						<div class="mui-text-center">
+						欢迎来到新兴贸易
+						</div>
+						<div class="mui-text-center">
+						使用账号和密码
+						</div>
+						<div class="mui-input-row">
+							<label>注册凭证</label>
+							<input type="text" hidden="true" name="web3" id="address" autocomplete="off" class="mui-input-clear" placeholder="地址" required>
+							<input type="text" name="address" id="iden"  autocomplete="off" class="mui-input-clear" placeholder="地址" required>
+						</div>
+						<div class="mui-input-row">
+							<label>用户名：</label>
+							<input type="text" name="username" id="username"  autocomplete="off" class="mui-input-clear" pattern="[\u4e00-\u9fa5]{1,}" placeholder="请输入中文用户名" required>
+						</div>
+						<div class="mui-input-row">
+							<label>密码：</label>
+							<input type="password" name="password" id="password"  autocomplete="off"  pattern="\w{6,18}" class="mui-input-clear" placeholder="请输入密码6~18" required>
+						</div>
+						<button type="submit" class="mui-btn-block" id="loginBtn">注册</button>
+						<div class="myfooter"><p><a style="color: white;" href="login">登录</a></p><p><a style="color: white;" href="AlterUser">忘记密码?</a></p></div>
+					</form>
+			    </div>
+	        </div>
 	</body>
 	<script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/web3.min.js"></script>

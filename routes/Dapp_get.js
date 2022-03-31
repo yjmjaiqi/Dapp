@@ -1,25 +1,25 @@
 var express = require('express');
 var router = express.Router();
-// var multer = require('multer')
+var multer = require('multer')
 var db = require("../mysql/mysql")
-// var uploadFolder = './public/img';
+var uploadFolder = './public/img';
  
 // 通过 filename 属性定制
-// var storage = multer.diskStorage({
-//  destination: function (req, file, cb) {
-//   cb(null, uploadFolder); // 保存的路径，备注：需要自己创建
-//   console.log(uploadFolder);
-//  },
-//  filename: function (req, file, cb) {upload.single('file')
-//   // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
-//   let suffix=file.mimetype.split('/')[0];//获取文件格式
-//   console.log("suffix",suffix) 
-//   cb(null, file.originalname); //+'.'+suffix
-//   console.log(file.originalname);
-//  }
-// });
-// // 通过 storage 选项来对 上传行为 进行定制化
-// var upload = multer({ storage: storage })
+var storage = multer.diskStorage({
+ destination: function (req, file, cb) {
+  cb(null, uploadFolder); // 保存的路径，备注：需要自己创建
+  console.log(uploadFolder);
+ },
+ filename: function (req, file, cb) {upload.single('file')
+  // 将保存文件名设置为 字段名 + 时间戳，比如 logo-1478521468943
+  let suffix=file.mimetype.split('/')[0];//获取文件格式
+  console.log("suffix",suffix) 
+  cb(null, file.originalname); //+'.'+suffix
+  console.log(file.originalname);
+ }
+});
+// 通过 storage 选项来对 上传行为 进行定制化
+var upload = multer({ storage: storage })
 
 
 // 注册
@@ -77,7 +77,7 @@ router.post('/login', function(req, res) {
         text:'登录页'
       });
     }else{
-      res.render('about')
+      res.render('index')
     }
   })
 });
@@ -86,76 +86,107 @@ router.get('/AlterUser', function(req, res) {
   res.render('Alter_User')
 });
 router.post('/AlterUser', function(req, res) {
-  res.render('login');
+  web3A = req.body.web3
+  address = req.body.address
+  username = req.body.username
+  password = req.body.password
+  console.log(web3A,address,username,password)
+  sql = 'update user set username=?,password=? where address=?'
+    if (web3A == address){
+      db.query(sql,[username,password,address],(err,result,field)=>{
+      console.log(result)
+      if(result !="" ){
+        res.render('login')
+      }
+      })
+    }else{
+      res.render('info',{
+      title:'修改失败',
+      content:'用户凭证错误或不存在',
+      href:'AlterUser',
+      text:'忘记密码'
+      })
+    }
 });
 //首页
-router.get('/about', function(req, res) {
-  res.render('about')
+router.get('/index', function(req, res) {
+  console.log(req.session.username);
+  if(req.session.username==undefined&&req.session.password==undefined){
+    res.render('info',{
+      title:'页面访问失败',
+      content:'请先登录',
+      href:'login',
+      text:'登录页'
+    });
+  }
+  res.render('index')
 });
-// 日常
-router.get('/everyday', function(req, res) {
-  res.render('everyday')
+// 水果
+router.get('/fruits', function(req, res) {
+  res.render('fruits')
 });
-// 书籍
-router.get('/book', function(req, res) {
-  res.render('book')
+// 家具
+router.get('/furnitures', function(req, res) {
+  res.render('furnitures')
 });
-// 电器
-router.get('/electric', function(req, res) {
-  res.render('electric')
+// 坚果
+router.get('/nuts', function(req, res) {
+  res.render('nuts')
 });
-// 食物
-router.get('/food', function(req, res) {
-  res.render('food')
+// 零食
+router.get('/snacks', function(req, res) {
+  res.render('snacks')
 });
-// 衣物
-router.get('/clothes', function(req, res) {
-  res.render('clothes')
-});
-// 单个产品详情
-router.get('/single', function(req, res) {
-  res.render('single')
+// 购物车
+router.get('/cart', function(req, res) {
+  res.render('cart')
 });
 // 商品评论
 router.get('/comment', function(req, res) {
   res.render('comment')
 });
-// // Back_Manage
-// // 个人中心  上架商品
-// router.get('/management', function(req, res) {
-//   res.render('Back_Manage')
-// });
-// router.post("/management",upload.single('file'),function (req,res){
-//   console.log("router.username,password",req.session.username,req.session.password);
-//   console.log(req.file,'------',req.body,'-------',req.file.path);
-//   console.log(req.file.path.replace("public",''))
-//   category = req.body.category
-//   productName = req.body.productName
-//   information = req.body.information
-//   img_link = req.file.path.replace("public",'')
-//   price = req.body.price
-//   console.log(category,productName,information,img_link,price)
-//   db.query('select * from user where username=? and password=?',[req.session.username,req.session.password],(err,result,field)=>{
-//     console.log(result);
-//     sql = 'insert into product(category,productName,sellers,price,information,img_link,launch_time,state,userid) values(?,?,?,?,?,?,CURRENT_TIMESTAMP,?,?)'
-//     db.query(sql,[category,productName,req.session.username,price,information,img_link,'未售出',result[0].id],(err,result,field)=>{
-//         console.log(result)
-//     })
-//   })
-//   // res.render("img",{"img":req.file.path.replace("public",'')})
-//   res.redirect('./management')
-// })
-// // 历史交易记录
-// router.get('/history', function(req, res) {
-//   res.render('history')
-// });
-// // 电子发票凭证
-// router.get('/bill', function(req, res) {
-//   res.render('bill')
-// });
-// // 个人信息
-// router.get('/user', function(req, res) {
-//   res.render('user')
-// });
+// 个人中心  
+router.get('/usercenter', function(req, res) {
+  res.render('usercenter')
+});
+// 我的订单
+router.get('/indent', function(req, res) {
+  res.render('indent')
+});
+// 添加商品  
+router.get('/productadd', function(req, res) {
+  res.render('productadd')
+});
+router.post("/productadd",upload.single('file'),function (req,res){
+  console.log("router.username,password",req.session.username,req.session.password);
+  console.log(req.file,'------',req.body,'-------',req.file.path);
+  console.log(req.file.path.replace("public",''))
+  category = req.body.categories
+  productName = req.body.productname
+  information = req.body.information
+  price = req.body.price
+  start_time = req.body.start_time
+  end_time = req.body.end_time
+  img_link = req.file.path.replace("public",'')
+  console.log(category,productName,information,start_time,end_time,typeof(end_time),img_link,price)
+  db.query('select * from user where username=? and password=?',[req.session.username,req.session.password],(err,result,field)=>{
+    console.log(result);
+    sql = 'insert into product(category,productName,sellers,price,information,img_link,launch_time,end_time,state,userid) values(?,?,?,?,?,?,?,?,?,?)'
+    db.query(sql,[category,productName,req.session.username,price,information,img_link,start_time,end_time,'未售出',result[0].id],(err,result,field)=>{
+        console.log(result)
+    })
+    db.query('update user set launch_num=launch_num+1 where id=?',[result[0].id],(err,result,field)=>{console.log(result);})
+  })
+  // res.render("img",{"img":req.file.path.replace("public",'')})
+  res.redirect('/productadd')
+})
+// 历史交易记录
+router.get('/history', function(req, res) {
+  res.render('history')
+});
+// 电子发票凭证
+router.get('/bill', function(req, res) {
+  res.render('bill')
+});
 module.exports = router
 
